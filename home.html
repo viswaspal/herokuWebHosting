@@ -1,0 +1,147 @@
+
+<!-- api.openweathermap.org/data/2.5/weather?q=Pune&appid=7c40fda1f0e6bf67d61b4f622222afa9 -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+       
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css">
+        <link rel="stylesheet" href="style.css">
+        <title>
+            Weather
+        </title>
+    </head>
+    <style>
+                    body{
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                align-items:center;
+                flex-wrap:wrap;
+                height:100vh;
+                width:100vw;
+            }
+            .box{
+                background-color:lightblue;
+                /* position:relative; */
+                border-style:solid;
+                border-color:rgb(170, 170, 246);
+                border-width:2px;
+                border-radius:8px;
+            }
+
+            .info{
+                padding:14px;
+                margin:12px;
+                background-color:rgb(216, 231, 245);
+                border:solid 1px rgb(200, 200, 241);
+                border-radius:7px;
+            }
+
+            #weathercon{
+                padding:7px;
+                margin:12px;
+                position:relative;
+                left:8rem;
+            }
+    </style>
+    <body>
+        <div class="box">
+            <div class="wave-one"></div>
+            <div class="wave-two"></div>
+            <div class="wave-three"></div>
+
+            <div id="weathercon">
+                <i class="fas fa-sun" style="color:Yellow"></i> 
+            </div>
+            <div class="info">
+                <h2 class="location"><i class="fas fa-street-view"></i>{%location%} ,{%country%}</h2>
+                <p id="date">WED | OCT 23 | 10:49 AM </p>
+                <h1 class="temp">{%tempval%}&deg;C</h1>
+                <h3 class="tempmin_max">Min {%tempmin%}&deg;C | Max {%tempmax%}&deg;C</h3>
+            </div>
+        </div>
+        <script>
+            const curDate = document.getElementById("date");
+            let weathercon = document.getElementById("weathercon");
+            
+
+            const tempStatus = "{%tempstatus%}";
+
+            if(tempStatus=="Clear"){
+                weathercon.innerHTML = "<i class='fas fa-sun' style='color:Yellow'></i> "
+            }
+            else if(tempStatus=="Clouds"){
+                weathercon.innerHTML = "<i class='fas fa-cloud' style='color:Blue'></i> "
+            }
+            else if(tempStatus=="Rainy"){
+                weathercon.innerHTML = "<i class='fas fa-cloud-sun-rain' style='color:Blue'></i> "
+            }
+            else if(tempStatus=="Snow"){
+                weathercon.innerHTML = "<i class='fas fa-snowman' style='color:White'></i> "
+            }
+            else{
+                weathercon.innerHTML = "<i class='fas fa-cloud' style='color:Blue'></i> "
+            }
+            
+            const getCurrentDay=()=>{
+                var weekday=new Array(7);
+                weekday[0]="Sunday";
+                weekday[1]="Monday";
+                weekday[2]="Tuesday";
+                weekday[3]="Wednesday";
+                weekday[4]="Thursday";
+                weekday[5]="Friday";
+                weekday[6]="Saturday";
+
+                let currentTime=new Date();
+                // console.log(weekday[currentTime.getDay()]);
+                let day=weekday[currentTime.getDay()];
+                return day;
+            };
+            // getCurrentDay();
+            const getCurrentTime=()=>{
+
+                var months=[
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "Sep",
+                    "Oct",
+                    "November",
+                    "Dec",
+                ];
+
+                var now=new Date();
+                var month=months[now.getMonth()];
+                var day=now.getDate();
+                var year=now.getFullYear();
+
+                let hours=now.getHours();
+                let minutes=now.getMinutes();
+
+                let periods = "AM";
+                if(hours > 11){
+                    periods="PM";
+                    if(hours > 12) {
+                        hours-=12;
+                    }
+                }
+                if(minutes < 10){
+                    minutes="0"+minutes;
+                }
+                // console.log(month + "/" + day);
+                // time=month + "/" + day;
+                return `${month} | ${year} | ${hours}:${minutes}${periods}`;
+            };
+            // getCurrentTime();
+
+            curDate.innerHTML=getCurrentDay()+" | "+getCurrentTime();
+        </script>
+    </body>
+    </html>
